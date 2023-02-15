@@ -10,5 +10,23 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+df <- read.csv("/Users/andrewholzwarth/Desktop/DS 2003/Midterm Project/bodyPerformance.csv")
+```
+
+```{r}
+#Questions
+
+# Is there a trend between the age of the observations and the class that each observation receives?
+
+# Is there a trend between body fat percentage and BMI Index (based on heigh and weight), add class as tertiary to factor in people who might be strong and the BMI would not factor their body fat percentage correctly
+
+# Trend between class and blood pressure (systolic/diastolic)
+  # diastolic is when your heart is between beats
+  # systolic is when your heart is on beat
+  # The combination of the two gives your blood pressure reading
+
+# Is there a trend between height and broad jump length? (add gender as a tertiary variable)
+
+# Trend between age, sit and bend forward (flexibility), and gender?
 
 ```
