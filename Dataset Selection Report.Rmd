@@ -1,0 +1,31 @@
+
+Dataset Selection will be tentatively due Wednesday night on Canvas. 
+
+```{r}
+# Preview initial dataset
+library(dplyr)
+library(ggplot2)
+library(plotly)
+```
+
+```{r}
+# Preview initial dataset, team/opponent data from 4 nba seasons (2022,2021,2020,2019)
+nbadata <- read.csv('nbadata.csv')
+head(nbadata)
+```
+
+```{r}
+# Isolate unique game values
+nbadata <- nbadata %>% distinct(game_id, .keep_all=TRUE)
+nbadata
+```
+
+```{r}
+#Clean up data (make all lowercase), aesthetics
+names(nbadata) <- tolower(names(nbadata))
+nbadata
+```
+
+
+
+
