@@ -10,9 +10,9 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 Dataset Selection will is due Wednesday night on Canvas. 
+Original Dataset Link: https://www.advancedsportsanalytics.com/nba-raw-data
 
 ```{r}
-# Preview initial dataset
 library(dplyr)
 library(ggplot2)
 library(plotly)
@@ -35,7 +35,3 @@ nbadata
 names(nbadata) <- tolower(names(nbadata))
 nbadata
 ```
-
-
-
-
