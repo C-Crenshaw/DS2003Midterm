@@ -26,8 +26,8 @@ head(nbadata)
 
 ```{r}
 # Isolate unique game values
-nbadata <- nbadata %>% distinct(game_id, .keep_all=TRUE)
-nbadata
+nbaunique <- nbadata[!duplicated(nbadata[ , c(1, 5)]), ]
+nbaunique
 ```
 
 ```{r}
