@@ -1,5 +1,15 @@
+---
+title: "DS2003 Midterm Dataset Selection"
+author: "Andrew Holzwarth, Dylan Cole, Lexi Van Metre, Carson Crenshaw"
+date: "`r Sys.Date()`"
+output: html_document
+---
 
-Dataset Selection will be tentatively due Wednesday night on Canvas. 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Dataset Selection will is due Wednesday night on Canvas. 
 
 ```{r}
 # Preview initial dataset
