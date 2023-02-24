@@ -8,6 +8,9 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
 Dataset Selection will is due Wednesday night on Canvas. 
 Original Dataset Link: https://www.advancedsportsanalytics.com/nba-raw-data
@@ -16,22 +19,39 @@ Original Dataset Link: https://www.advancedsportsanalytics.com/nba-raw-data
 library(dplyr)
 library(ggplot2)
 library(plotly)
+library(tidyverse)
 ```
 
 ```{r}
-# Preview initial dataset, team/opponent data from 4 nba seasons (2022,2021,2020,2019)
-nbadata <- read.csv('nbadata.csv')
-head(nbadata)
+#Question 1
+  #Is there a trend between team efg percentage and offensive rating by team?
+
+#Question 2
+  #Is there a trend between team_ft_rate (which we are using to track fouls), and total score, sorted by team and season
 ```
 
 ```{r}
-# Isolate unique game values
-nbaunique <- nbadata[!duplicated(nbadata[ , c(1, 5)]), ]
-nbaunique
+# Load in our data
+nbadata <- read.csv("/Users/andrewholzwarth/Desktop/DS 2003/Midterm Project/ASA Heat Check Data (2) copy.csv")
 ```
 
 ```{r}
+# Data Wrangling
+
+#Remove unnecessary variables
+nbadata_wrangled <- nbadata[,c(1:12,62)]
+
+# Isolate unique game values (each game_id has 2 values, 1 for each team)
+nbaunique <- nbadata_wrangled[!duplicated(nbadata_wrangled[ , c(1, 5)]), ]
+
+
 #Clean up data (make all lowercase), aesthetics
-names(nbadata) <- tolower(names(nbadata))
-nbadata
+names(nbaunique) <- tolower(names(nbaunique))
+nbaunique
+
+# Make factor variables
+nbaunique$h_a <- as.factor(nbaunique$h_a)
+nbaunique$ot <- as.factor(nbaunique$ot)
+nbaunique$team_abbrev <- as.factor(nbaunique$team_abbrev)
+nbaunique$season <- as.factor(nbaunique$season)
 ```
