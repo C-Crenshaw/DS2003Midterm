@@ -55,3 +55,37 @@ nbaunique$ot <- as.factor(nbaunique$ot)
 nbaunique$team_abbrev <- as.factor(nbaunique$team_abbrev)
 nbaunique$season <- as.factor(nbaunique$season)
 ```
+
+```{r}
+#Andrew's test area
+
+nba_average <- nbaunique %>%
+  group_by(team_abbrev, season) %>%
+  summarize(team_score = mean(team_score),
+            team_pace = mean(team_pace),
+            team_efg_pct = mean(team_efg_pct),
+            team_tov_pct = mean(team_tov_pct),
+            team_orb_pct = mean(team_orb_pct),
+            team_ft_rate = mean(team_ft_rate),
+            team_off_rtg = mean(team_off_rtg))
+nba_average
+```
+
+
+```{r}
+# Create Graphs
+
+question_1_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_off_rtg, color = team_abbrev, shape = season))+
+  geom_point()+
+  theme_bw()
+
+question_1_plot
+
+
+question_2_plot <- ggplot(nba_average, aes(x = team_ft_rate, y = team_score, color = team_abbrev, shape = season))+
+  geom_point()+
+  theme_bw()
+
+question_2_plot
+```
+
