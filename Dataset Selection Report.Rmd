@@ -71,7 +71,7 @@ nba_average <- nbaunique %>%
 nba_average
 ```
 
-```
+```{r}
 # Create Graphs
 
 question_1_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_off_rtg))+
