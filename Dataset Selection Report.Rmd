@@ -71,21 +71,56 @@ nba_average <- nbaunique %>%
 nba_average
 ```
 
-
-```{r}
+```
 # Create Graphs
 
-question_1_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_off_rtg, color = team_abbrev, shape = season))+
-  geom_point()+
+question_1_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_off_rtg))+
+  geom_point(aes(color = team_abbrev, shape = season))+
+  geom_smooth(color = "black", method = "lm", se = FALSE)+
+  labs(title = "Connection between FG% and Offensive Rating", 
+       subtitle = "Strong Positive Trend")+
+  ylab("Team Offensive Rating")+
+  xlab("Team Effective Field Goal Percentage")+
   theme_bw()
 
 question_1_plot
 
+question_1.1_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_off_rtg))+
+  geom_point(aes(color = team_abbrev, shape = season))+
+  geom_smooth(color = "black", method = "lm", se = FALSE)+
+  labs(title = "Connection between FG% and Offensive Rating", 
+       subtitle = "NBA 2020-2022 Season")+
+  ylab("Team Offensive Rating")+
+  xlab("Team Effective Field Goal Percentage")+
+  theme_bw()+
+  facet_wrap(vars(season))
+  
 
-question_2_plot <- ggplot(nba_average, aes(x = team_ft_rate, y = team_score, color = team_abbrev, shape = season))+
-  geom_point()+
+question_1.1_plot
+
+
+question_2_plot <- ggplot(nba_average, aes(x = team_ft_rate, y = team_score))+
+  geom_point(aes(color = team_abbrev, shape = season))+
+  geom_smooth(color = "black", method = "lm", se = FALSE)+
+  labs(title = "Can Fouling Lead to More Points?")+
+  ylab("Team Score")+
+  xlab("Team Free Throw Rate")+
   theme_bw()
 
 question_2_plot
+
+
+question_2.1_plot <- ggplot(nba_average, aes(x = team_ft_rate, y = team_score,color = team_abbrev, shape = season))+
+  geom_point()+
+  geom_smooth(color = "black", method = "lm", se = FALSE)+
+  labs(title = "Can Fouling Lead to More Points?",
+       subtitle = "NBA 2020-2022 Season")+
+  ylab("Team Score")+
+  xlab("Team Free Throw Rate")+
+  theme_bw()+
+  facet_wrap(vars(season))
+  
+
+question_2.1_plot
 ```
 
