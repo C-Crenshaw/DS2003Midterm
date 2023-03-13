@@ -1,63 +1,45 @@
 ---
-title: "DS2003 Midterm Dataset Selection"
-author: "Andrew Holzwarth, Dylan Cole, Lexi Van Metre, Carson Crenshaw"
-date: "`r Sys.Date()`"
+title: "Mid Term Project"
+author: "Lexi Van Metre, Andrew Holzwarth, Dylan Cole, & Carson Crenshaw"
+date: "2023-03-17"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-Dataset Selection will is due Wednesday night on Canvas. 
-Original Dataset Link: https://www.advancedsportsanalytics.com/nba-raw-data
-
+# Grabbing the Data Set 
 ```{r}
 library(dplyr)
 library(ggplot2)
 library(plotly)
 library(tidyverse)
+
+nbadata <- read.csv("nbadata.csv")
+
+# View first 5 rows of NBA data 
+head(nbadata)
 ```
 
-```{r}
-#Question 1
-  #Is there a trend between team efg percentage and offensive rating by team?
-
-#Question 2
-  #Is there a trend between team_ft_rate (which we are using to track fouls), and total score, sorted by team and season
-```
-
-```{r}
-# Load in our data
-nbadata <- read.csv("/Users/andrewholzwarth/Desktop/DS 2003/Midterm Project/ASA Heat Check Data (2) copy.csv")
-```
-
-```{r}
 # Data Wrangling
-
+```{r}
 #Remove unnecessary variables
 nbadata_wrangled <- nbadata[,c(1:12,62)]
-
 # Isolate unique game values (each game_id has 2 values, 1 for each team)
 nbaunique <- nbadata_wrangled[!duplicated(nbadata_wrangled[ , c(1, 5)]), ]
-
-
 #Clean up data (make all lowercase), aesthetics
 names(nbaunique) <- tolower(names(nbaunique))
-nbaunique
+
+# View first 5 rows of the NBA data subset
+head(nbaunique)
 
 # Make factor variables
 nbaunique$h_a <- as.factor(nbaunique$h_a)
 nbaunique$ot <- as.factor(nbaunique$ot)
 nbaunique$team_abbrev <- as.factor(nbaunique$team_abbrev)
 nbaunique$season <- as.factor(nbaunique$season)
+
 ```
 
+# Grouping the Data to Narrow the Data Down by Team Average
 ```{r}
-#Andrew's test area
 
 nba_average <- nbaunique %>%
   group_by(team_abbrev, season) %>%
@@ -69,11 +51,14 @@ nba_average <- nbaunique %>%
             team_ft_rate = mean(team_ft_rate),
             team_off_rtg = mean(team_off_rtg))
 nba_average
+
+head(nba_average)
 ```
 
-```{r}
-# Create Graphs
 
+# Question 1 
+### Is there a trend between team efg percentage and offensive rating by team?
+```{r}
 question_1_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_off_rtg))+
   geom_point(aes(color = team_abbrev, shape = season))+
   geom_smooth(color = "black", method = "lm", se = FALSE)+
@@ -84,7 +69,10 @@ question_1_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_off_rtg))+
   theme_bw()
 
 question_1_plot
+```
 
+### 1.1: Does the general positive trend vary across NBA seasons 2020-2022? 
+```{r}
 question_1.1_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_off_rtg))+
   geom_point(aes(color = team_abbrev, shape = season))+
   geom_smooth(color = "black", method = "lm", se = FALSE)+
@@ -95,10 +83,12 @@ question_1.1_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_off_rtg)
   theme_bw()+
   facet_wrap(vars(season))
   
-
 question_1.1_plot
+```
 
-
+# Question 2:
+### Is there a trend between team_ft_rate (which we are using to track fouls), and total score, sorted by team and season?
+```{r}
 question_2_plot <- ggplot(nba_average, aes(x = team_ft_rate, y = team_score))+
   geom_point(aes(color = team_abbrev, shape = season))+
   geom_smooth(color = "black", method = "lm", se = FALSE)+
@@ -108,7 +98,10 @@ question_2_plot <- ggplot(nba_average, aes(x = team_ft_rate, y = team_score))+
   theme_bw()
 
 question_2_plot
+```
 
+### 2.2 Are there any trends when looking across seasons for question 2? 
+```{r}
 
 question_2.1_plot <- ggplot(nba_average, aes(x = team_ft_rate, y = team_score,color = team_abbrev, shape = season))+
   geom_point()+
@@ -119,8 +112,7 @@ question_2.1_plot <- ggplot(nba_average, aes(x = team_ft_rate, y = team_score,co
   xlab("Team Free Throw Rate")+
   theme_bw()+
   facet_wrap(vars(season))
-  
-
 question_2.1_plot
+
 ```
 
