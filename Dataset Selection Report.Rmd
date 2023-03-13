@@ -1,45 +1,61 @@
 ---
-title: "Mid Term Project"
-author: "Lexi Van Metre, Andrew Holzwarth, Dylan Cole, & Carson Crenshaw"
-date: "2023-03-17"
+title: "Exploring Offensive Team Trends in the NBA"
+author: "Dylan Cole, Carson Crenshaw, Andrew Holzwarth, and Lexi Van Metre"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
-# Grabbing the Data Set 
-```{r}
+```{r setup, include=FALSE, warnings = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, include = FALSE, message = FALSE}
 library(dplyr)
 library(ggplot2)
 library(plotly)
 library(tidyverse)
 
-nbadata <- read.csv("nbadata.csv")
-
-# View first 5 rows of NBA data 
-head(nbadata)
+#Dataset Selection will is due Wednesday night on Canvas. 
+#Original Dataset Link: #https://www.advancedsportsanalytics.com/nba-raw-data
 ```
 
+```{r, include = FALSE, message = FALSE}
+#Question 1
+  #Is there a trend between team efg percentage and offensive rating by team?
+
+#Question 2
+  #Is there a trend between team_ft_rate (which we are using to track fouls), and total score, sorted by team and season
+```
+
+```{r, include = FALSE, message = FALSE}
+# Load in our data
+nbadata <- read.csv("/Users/andrewholzwarth/Desktop/DS 2003/Midterm Project/ASA Heat Check Data (2) copy.csv")
+```
+
+```{r, include = FALSE, message = FALSE}
 # Data Wrangling
-```{r}
+
 #Remove unnecessary variables
 nbadata_wrangled <- nbadata[,c(1:12,62)]
+
 # Isolate unique game values (each game_id has 2 values, 1 for each team)
 nbaunique <- nbadata_wrangled[!duplicated(nbadata_wrangled[ , c(1, 5)]), ]
+
+
 #Clean up data (make all lowercase), aesthetics
 names(nbaunique) <- tolower(names(nbaunique))
-
-# View first 5 rows of the NBA data subset
-head(nbaunique)
+nbaunique
 
 # Make factor variables
 nbaunique$h_a <- as.factor(nbaunique$h_a)
 nbaunique$ot <- as.factor(nbaunique$ot)
 nbaunique$team_abbrev <- as.factor(nbaunique$team_abbrev)
 nbaunique$season <- as.factor(nbaunique$season)
-
 ```
 
-# Grouping the Data to Narrow the Data Down by Team Average
-```{r}
+```{r, include = FALSE, message = FALSE}
+#Andrew's test area
 
 nba_average <- nbaunique %>%
   group_by(team_abbrev, season) %>%
@@ -51,44 +67,37 @@ nba_average <- nbaunique %>%
             team_ft_rate = mean(team_ft_rate),
             team_off_rtg = mean(team_off_rtg))
 nba_average
-
-head(nba_average)
 ```
 
 
-# Question 1 
-### Is there a trend between team efg percentage and offensive rating by team?
-```{r}
-question_1_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_off_rtg))+
+```{r, include = FALSE, message = FALSE}
+# Create Graphs
+
+question_1_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_score))+
   geom_point(aes(color = team_abbrev, shape = season))+
   geom_smooth(color = "black", method = "lm", se = FALSE)+
-  labs(title = "Connection between FG% and Offensive Rating", 
+  labs(title = "Connection between FG% and Team Score", 
        subtitle = "Strong Positive Trend")+
-  ylab("Team Offensive Rating")+
+  ylab("Team Score")+
   xlab("Team Effective Field Goal Percentage")+
   theme_bw()
 
 question_1_plot
-```
 
-### 1.1: Does the general positive trend vary across NBA seasons 2020-2022? 
-```{r}
-question_1.1_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_off_rtg))+
-  geom_point(aes(color = team_abbrev, shape = season))+
+question_1.1_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_score, label = team_abbrev))+
+  geom_point(aes(color = team_abbrev), size = 5, alpha = .5)+
+  geom_text(color="black", size=2)+
   geom_smooth(color = "black", method = "lm", se = FALSE)+
-  labs(title = "Connection between FG% and Offensive Rating", 
+  labs(title = "Connection between FG% and Team Score", 
        subtitle = "NBA 2020-2022 Season")+
-  ylab("Team Offensive Rating")+
+  ylab("Team Score")+
   xlab("Team Effective Field Goal Percentage")+
   theme_bw()+
   facet_wrap(vars(season))
   
-question_1.1_plot
-```
 
-# Question 2:
-### Is there a trend between team_ft_rate (which we are using to track fouls), and total score, sorted by team and season?
-```{r}
+question_1.1_plot
+
 question_2_plot <- ggplot(nba_average, aes(x = team_ft_rate, y = team_score))+
   geom_point(aes(color = team_abbrev, shape = season))+
   geom_smooth(color = "black", method = "lm", se = FALSE)+
@@ -98,21 +107,215 @@ question_2_plot <- ggplot(nba_average, aes(x = team_ft_rate, y = team_score))+
   theme_bw()
 
 question_2_plot
-```
 
-### 2.2 Are there any trends when looking across seasons for question 2? 
-```{r}
 
-question_2.1_plot <- ggplot(nba_average, aes(x = team_ft_rate, y = team_score,color = team_abbrev, shape = season))+
-  geom_point()+
+question_2.1_plot <- ggplot(nba_average, aes(x = team_ft_rate, y = team_score,color = team_abbrev, label = team_abbrev))+
+  geom_point(size = 5, alpha = .5)+
   geom_smooth(color = "black", method = "lm", se = FALSE)+
+  geom_text(color="black", size=2) +
   labs(title = "Can Fouling Lead to More Points?",
        subtitle = "NBA 2020-2022 Season")+
   ylab("Team Score")+
   xlab("Team Free Throw Rate")+
   theme_bw()+
   facet_wrap(vars(season))
-question_2.1_plot
+  
 
+question_2.1_plot
+```
+
+```{r, include = FALSE, message = FALSE}
+#Appendix Charts
+
+question_1.2_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_off_rtg))+
+  geom_point(aes(color = team_abbrev, shape = season))+
+  geom_smooth(color = "black", method = "lm", se = FALSE)+
+  labs(title = "Connection between FG% and Team Score", 
+       subtitle = "Strong Positive Trend")+
+  ylab("Team Offensive Rating")+
+  xlab("Team Effective Field Goal Percentage")+
+  theme_bw()
+
+question_1.2_plot
+
+question_1.3_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_off_rtg, label = team_abbrev))+
+  geom_point(aes(color = team_abbrev), size = 5, alpha = .5)+
+  geom_text(color="black", size=2)+
+  geom_smooth(color = "black", method = "lm", se = FALSE)+
+  labs(title = "Connection between FG% and Team Score", 
+       subtitle = "NBA 2020-2022 Season")+
+  ylab("Team Offensive Rating")+
+  xlab("Team Effective Field Goal Percentage")+
+  theme_bw()+
+  facet_wrap(vars(season))
+  
+
+question_1.3_plot
+```
+
+## Abstract
+  The contents of this report include an exploratory data analysis which will generate observed trends between NBA team summary data and the overall performance of the team across multiple seasons. In order to guide the concentration of this report, the following questions will be asked: Is there a trend between team effective field goal percentage and the average team score? Is there a trend between foul rate and team score by season?
+  
+## Introduction
+  Sports are a crucial part of American culture. In an age of technological advancement, athletics has seen a revolution in the application of analytics to gameplay. An exceptional example of this modern phenomenon occurs within the National Basketball Association (NBA). The NBA is an ever-evolving league that requires constant innovation in order for teams to gain an advantage over each other. Data within this organization has grown exponentially over the last 15 years, with improvements in reporting and data collection leading to more precise player and team summary statistics [1]. Additionally, with improved communication systems, the frequency and amount of information captured, stored, and distributed has grown significantly. The result of this transformation is clear: the world of basketball generates far more data today than ever before. 
+
+With this data, sports analytics have the capability to optimize the processes and success of a sports organization as a whole [2]. Field data metrics help teams in improving game strategy, nutrition plans, and other methods for raising performance. As a direct consequence, the success or failure of a given basketball program has the capacity to leverage ticket sales, offset operational costs, and turn a profit for stakeholders. The business of the NBA is red hot: NBA franchise values have continued to grow over the past decade, averaging $2.12 billion as of 2020 [3]. While winning basketball games does not inherently cause an increase in profitability or generated revenue for a given NBA franchise, the expectation of success often precedes a trend of increased television viewership, merchandising, and sponsorships [4]. It is therefore pertinent to study the relationships between various NBA sports metrics because of their ability to indicate positive trends in team performance. 
+
+With an understanding of the non-causal trends which occur between measures of athletic performance and team success, team managers and executives can decipher which variables deserve greater attention within a franchise. As the NBA continues to seek new avenues of enhancing performance and encouraging financial growth in the sports industry, this investigation can promote an elevated use of sports analytics in the National Basketball Association.  
+
+[1] https://guides.loc.gov/sports-industry/basketball
+
+[2] https://builtin.com/big-data/big-data-companies-sports
+
+[3]https://www.forbes.com/sites/kurtbadenhausen/2020/02/11/nba-team-values-2020-lakers-and-warriors-join-knicks-in-rarefied-4-billion-club/?sh=6f45aad92032 
+
+[4] https://sloanreview.mit.edu/audio/do-teams-need-to-win-to-sell-tickets/ 
+
+## Data and Dataset Summary
+
+* `team_abbrev`: 
+A three letter abbreviation of each team name. We used the color and geom_text() functions of the ggplot package to visually show each team on the graphs. 
+
+* `season`:
+A categorical variable for the 2020, 2021, and 2022 seasons. We used the variable to group and facet the graphs.
+
+* `team_score`:
+The average of how many points each team scored in a season. The variable was the dependent variable in both of our research questions.
+
+* `team_pace`:
+How fast each team played a game on average. 
+
+team_pace = minutes per game * (team possessions + opponent possessions) / (2 * (team minutes played / 5))
+
+* `team_efg_pct`:
+Average team effective field goal percentage is the team evaluation metric that measured the effectiveness of 2-point shots and 3-point shots. We used the varibale as an explanatory variable for the first question.
+
+team_efg_pace = [(All Field Goals Made) + 0.5 * (3-point Field Goals Made)] / (All Field Goal Attempts)
+
+* `team_tov_pct`:
+Estimate of how many times a team will turnover the ball in 100 plays throughout an entire season
+
+team_tov_pct = 100 * turnovers / (field goal attempts + 0.44 * free throw attempts + turnovers)
+
+* `team_orb_pct`:
+Offensive rebounding percentage measures a team's ability to get offensive rebounds
+
+team_orb_pct = (Offensive Rebounds) / [(Offensive Rebounds) + (Opponent’s Defensive Rebounds)]
+
+* `team_ft_rate`:
+Average free throw rate. The variable measures a team's ability to get to the free throw line. We used the variable as the explanatory variable in the second question.
+
+team_ft_rate = team free throw attempts / total field goals attempted
+
+* `team_off_rtg`:
+A teams offensive rating. We initially were planning on using the variable as the dependent variable for question 1, but we were unsure of how the statistic was calculated and all formulas found included field goal percentage, which also influences team_efg_pct. See exhibits 1 and 2 of the appendix to see that trend.
+
+
+
+## Question 1: 
+### Is there a trend between team efg percentage and team score by team?
+
+### Prediction
+
+### Chart
+```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+question_1_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_score))+
+  geom_point(aes(color = team_abbrev, shape = season))+
+  geom_smooth(color = "black", method = "lm", se = FALSE)+
+  labs(title = "Connection between FG% and Team Score", 
+       subtitle = "Strong Positive Trend")+
+  ylab("Team Score")+
+  xlab("Team Effective Field Goal Percentage")+
+  theme_bw()
+
+question_1_plot
+```
+
+### 1.1: Does the general positive trend vary across NBA seasons 2020-2022? 
+```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+question_1.1_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_score, label = team_abbrev))+
+  geom_point(aes(color = team_abbrev), size = 5, alpha = .5)+
+  geom_text(color="black", size=2)+
+  geom_smooth(color = "black", method = "lm", se = FALSE)+
+  labs(title = "Connection between FG% and Team Score", 
+       subtitle = "NBA 2020-2022 Season")+
+  ylab("Team Score")+
+  xlab("Team Effective Field Goal Percentage")+
+  theme_bw()+
+  facet_wrap(vars(season))
+  
+
+question_1.1_plot
+```
+
+## Question 2:
+### Is there a trend between team_ft_rate (which we are using to track fouls), and total score, sorted by team and season?
+
+### Prediction
+
+### Chart
+```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+question_2_plot <- ggplot(nba_average, aes(x = team_ft_rate, y = team_score))+
+  geom_point(aes(color = team_abbrev, shape = season))+
+  geom_smooth(color = "black", method = "lm", se = FALSE)+
+  labs(title = "Can Fouling Lead to More Points?",
+       subtitle= "Weak Upward Trend")+
+  ylab("Team Score")+
+  xlab("Team Free Throw Rate")+
+  theme_bw()
+
+question_2_plot
+```
+
+### 2.2 Are there any trends when looking across seasons for question 2? 
+```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+
+question_2.1_plot <- ggplot(nba_average, aes(x = team_ft_rate, y = team_score,color = team_abbrev, label = team_abbrev))+
+  geom_point(size = 5, alpha = .5)+
+  geom_smooth(color = "black", method = "lm", se = FALSE)+
+  geom_text(color="black", size=2) +
+  labs(title = "Can Fouling Lead to More Points?",
+       subtitle = "NBA 2020-2022 Season")+
+  ylab("Team Score")+
+  xlab("Team Free Throw Rate")+
+  theme_bw()+
+  facet_wrap(vars(season))
+  
+
+question_2.1_plot
+```
+
+## Conclusion
+
+## Appendix
+* `Exhibit 1: Combined Offensive Rating instead of Team Score`
+```{r, echo = FALSE, message = FALSE}
+question_1.2_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_off_rtg))+
+  geom_point(aes(color = team_abbrev, shape = season))+
+  geom_smooth(color = "black", method = "lm", se = FALSE)+
+  labs(title = "Connection between FG% and Team Score", 
+       subtitle = "Strong Positive Trend")+
+  ylab("Team Offensive Rating")+
+  xlab("Team Effective Field Goal Percentage")+
+  theme_bw()
+
+question_1.2_plot
+```
+
+* `Exhibit 2: Offensive Rating instead of Team Score by Season`
+```{r, echo = FALSE, message = FALSE}
+question_1.3_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_off_rtg, label = team_abbrev))+
+  geom_point(aes(color = team_abbrev), size = 5, alpha = .5)+
+  geom_text(color="black", size=2)+
+  geom_smooth(color = "black", method = "lm", se = FALSE)+
+  labs(title = "Connection between FG% and Team Score", 
+       subtitle = "NBA 2020-2022 Season")+
+  ylab("Team Offensive Rating")+
+  xlab("Team Effective Field Goal Percentage")+
+  theme_bw()+
+  facet_wrap(vars(season))
+  
+
+question_1.3_plot
 ```
 
