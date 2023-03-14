@@ -16,21 +16,14 @@ library(ggplot2)
 library(plotly)
 library(tidyverse)
 
-#Dataset Selection will is due Wednesday night on Canvas. 
-#Original Dataset Link: #https://www.advancedsportsanalytics.com/nba-raw-data
-```
-
-```{r, include = FALSE, message = FALSE}
-#Question 1
-  #Is there a trend between team efg percentage and offensive rating by team?
-
-#Question 2
-  #Is there a trend between team_ft_rate (which we are using to track fouls), and total score, sorted by team and season
+#Original Dataset Link: #https://www.advancedsportsanalytics.com/nba-heat-check-app
+#Google Drive Dataset Link (properly named): #https://drive.google.com/file/d/1vAEuCYVW86KehK72CQCGR00fJPSGtAJ3/view?usp=share_link
+#Make sure original dataset is named nbadata.csv
 ```
 
 ```{r, include = FALSE, message = FALSE}
 # Load in our data
-nbadata <- read.csv("/Users/andrewholzwarth/Desktop/DS 2003/Midterm Project/ASA Heat Check Data (2) copy.csv")
+nbadata <- read.csv("nbadata.csv")
 ```
 
 ```{r, include = FALSE, message = FALSE}
@@ -127,7 +120,35 @@ Average free throw rate. The variable measures a team's ability to get to the fr
 * `team_off_rtg`:
 A teams offensive rating. We initially were planning on using the variable as the dependent variable for question 1, but we were unsure of how the statistic was calculated and all formulas found included field goal percentage, which also influences team_efg_pct. See exhibits 1 and 2 of the appendix to see that trend.
 
+For a visual overview of the data contained within the entire nba_average data frame, the first six observations, the summary statistics, and a heat map of the entire data frame are provided. Heightened attention should be paid to the heat map, as observed correlations are used to support our question predictions below. What the correlation coefficients do not show, however, are whether the trends predicted are robust across seasons. Instead, considerations of time are incorporated into the question-based exploratory analysis of this report. 
 
+### First Six Observations
+```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+#First Six Observations of the Transformed nbadata.csv Dataset
+nba_average <- nbaunique %>%
+  group_by(team_abbrev, season) %>%
+  summarize(team_score = mean(team_score),
+            team_pace = mean(team_pace),
+            team_efg_pct = mean(team_efg_pct),
+            team_tov_pct = mean(team_tov_pct),
+            team_orb_pct = mean(team_orb_pct),
+            team_ft_rate = mean(team_ft_rate),
+            team_off_rtg = mean(team_off_rtg))
+head(nba_average)
+```
+
+### Summary of All Variables
+```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+#Summary of variables across the entire data frame
+summary(nba_average)
+```
+
+### Heat Map
+```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+#Correlation between variables (pay heightened attention to the high correlations between team score and other variables)
+p_load(GGally)
+ggcorr(nba_average)
+```
 
 ## Question 1: 
 ### Is there a trend between team efg percentage and team score by team?
