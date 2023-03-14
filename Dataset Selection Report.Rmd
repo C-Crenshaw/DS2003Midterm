@@ -15,6 +15,7 @@ library(dplyr)
 library(ggplot2)
 library(plotly)
 library(tidyverse)
+library(pacman)
 
 #Original Dataset Link: #https://www.advancedsportsanalytics.com/nba-heat-check-app
 #Google Drive Dataset Link (properly named): #https://drive.google.com/file/d/1vAEuCYVW86KehK72CQCGR00fJPSGtAJ3/view?usp=share_link
