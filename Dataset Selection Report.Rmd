@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warnings = FALSE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
 ```
 
 
@@ -136,7 +136,7 @@ A teams offensive rating. We initially were planning on using the variable as th
 As a group, we predict the team’s effective field goal percentage will create a positive correlation trend in average team score. In other words, a higher effective field goal percentage may cause an increase in the sample mean of points scored.
 
 ### Initial Chart
-```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 question_1_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_score))+
   geom_point(aes(color = team_abbrev, shape = season))+
   geom_smooth(color = "black", method = "lm")+
@@ -151,7 +151,7 @@ question_1_plot
 ```
 
 ### 1.1: Does the general positive trend vary across NBA seasons 2020-2022? 
-```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 question_1.1_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_score, label = team_abbrev))+
   geom_point(aes(color = team_abbrev), size = 5, alpha = .5)+
   geom_text(color="black", size=2)+
@@ -167,6 +167,7 @@ question_1.1_plot <- ggplot(nba_average, aes(x = team_efg_pct, y = team_score, l
 
 question_1.1_plot
 ```
+
 ### Discussion
 Our prediction was correct. There was a positive trend between effective field goal percentage and average team score. When we look at each season individually, we see that the teams that won the most games in the regular season are close to the top right corner of the chart: in 2020 the Milwaukee Bucks went 56-17 (1st in Eastern Conference), and in 2021 the Brooklyn Nets went 48-24 (2nd in Eastern Conference). Interestingly, in the 2022 season the Charlotte Hornets and Minnesota Timberwolves had a high effective field goal percentage and high average team score, but their records were 43-39 and 46-36, respectively. Although the graph shows a good indication that having a high effective field goal percentage leads to more points scored, the trend does not directly translate to winning more games or having success in the postseason. The three teams that won the championship, Los Angeles Lakers, Milwaukee Bucks, and Golden State Warriors, were not the optimal point in the chart, which shows that defense or another metric is crucial in determining postseason success. 
 
@@ -181,7 +182,7 @@ Based on the data, we predicted that a scatterplot would be the best format to s
 As a group we predict the greater number of fouls will increase the team score. The foul rate predicts the free throw rate percentage of a team. Shooting free throws allows a team to score while the clock is stopped, so it would make sense that a team score is higher if their free throw rate is higher. If the team score is higher, without other confounding variables, we would predict that the more a team fouls the more likely they are to lose. 
 
 ### Initial Chart
-```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 question_2_plot <- ggplot(nba_average, aes(x = team_ft_rate, y = team_score))+
   geom_point(aes(color = team_abbrev, shape = season))+
   geom_smooth(color = "black", method = "lm")+
@@ -196,7 +197,7 @@ question_2_plot
 ```
 
 ### 2.1 Are there any trends when looking across seasons for question 2? 
-```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 
 question_2.1_plot <- ggplot(nba_average, aes(x = team_ft_rate, y = team_score,color = team_abbrev, label = team_abbrev))+
   geom_point(size = 5, alpha = .5)+
@@ -214,11 +215,12 @@ question_2.1_plot <- ggplot(nba_average, aes(x = team_ft_rate, y = team_score,co
 
 question_2.1_plot
 ```
+
 ### Discussion
 Our chart shows our prediction is incorrect. There is no relative trend between free throw rate percentage and average score of a team. While free throws may allow a team to score while the clock is stopped, free throws may affect the team’s offensive rhythm. As we can see from the charts above, the relationship between team score and free throw rate has declined since the 2020 season. This may indicate that over time the teams that are scoring the most points are going to the free throw line less and gaining more points through regulated shots in a game. This can be further justified by the effective field goal percentage in teams. The team’s effective field goals, as shown in chart 1, may be a better predictor of a team’s average score as there was a positive correlation among the past three seasons. 
 
 ### Chart Justification
-Based on the data, we predicted that a scatterplot would be the best format to showcase our trend and data. Initially, the combined chart showed us an overall predicted trend of all seasons and all teams, sorted by color and shape. Similarly to question 1, we added a trend line to see the overall trend of the data because there was a lot of variance in the data points. To take a closer look, we faceted the data and made three separate charts, one for each season. Within each season, it was easier to compare individual teams and to compare trend lines over time. There was an obvious change in trends that became apparent after faceting the charts. Throughout the past three seasons, team free throw rate is becoming less of a determinant of total points scored. Another potential source of the new trend could be that teams are more focused on shooting three pointers and fouling during a three point shot is less common.
+Based on the data, we predicted that a scatter plot would be the best format to showcase our trend and data. Initially, the combined chart showed us an overall predicted trend of all seasons and all teams, sorted by color and shape. Similarly to question 1, we added a trend line to see the overall trend of the data because there was a lot of variance in the data points. To take a closer look, we faceted the data and made three separate charts, one for each season. Within each season, it was easier to compare individual teams and to compare trend lines over time. There was an obvious change in trends that became apparent after faceting the charts. Throughout the past three seasons, team free throw rate is becoming less of a determinant of total points scored. Another potential source of the new trend could be that teams are more focused on shooting three pointers and fouling during a three point shot is less common.
 
 ## Conclusion
 
