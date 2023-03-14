@@ -112,7 +112,7 @@ Offensive rebounding percentage measures a team's ability to get offensive rebou
 
 
 * `team_ft_rate`:
-Average free throw rate. The variable measures a team's ability to get to the free throw line. We used the variable as the explanatory variable in the second question.
+Average percentage of free throws attempted in a game. The variable measures a team's ability to get to the free throw line. In other words, the rate represents the percent of total game shots taken at the free throw line. For example, if the given percentage is 0.2, 20% of all shots in a game were attempted free throws, while 80% were attempted field goals. We used the variable as the explanatory variable in the second question.
     * team_ft_rate = team free throw attempts / total field goals attempted
 
 
