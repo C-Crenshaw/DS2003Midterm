@@ -17,14 +17,13 @@ library(plotly)
 library(tidyverse)
 library(pacman)
 
-#Original Dataset Link: #https://www.advancedsportsanalytics.com/nba-heat-check-app
-#Google Drive Dataset Link (properly named): #https://drive.google.com/file/d/1vAEuCYVW86KehK72CQCGR00fJPSGtAJ3/view?usp=share_link
-#Make sure original dataset is named nbadata.csv
+#Dataset Selection will is due Wednesday night on Canvas. 
+#Original Dataset Link: #https://www.advancedsportsanalytics.com/nba-raw-data
 ```
 
 ```{r, include = FALSE, message = FALSE}
 # Load in our data
-nbadata <- read.csv("nbadata.csv")
+nbadata <- read.csv("/Users/andrewholzwarth/Desktop/DS 2003/Midterm Project/nbadata.csv")
 ```
 
 ```{r, include = FALSE, message = FALSE}
@@ -49,8 +48,6 @@ nbaunique$season <- as.factor(nbaunique$season)
 ```
 
 ```{r, include = FALSE, message = FALSE}
-#Andrew's test area
-
 nba_average <- nbaunique %>%
   group_by(team_abbrev, season) %>%
   summarize(team_score = mean(team_score),
@@ -67,7 +64,7 @@ nba_average
   The contents of this report include an exploratory data analysis which will generate observed trends between NBA team summary data and the overall performance of the team across multiple seasons. In order to guide the concentration of this report, the following questions will be asked: Is there a trend between team effective field goal percentage and the average team score? Is there a trend between foul rate and team score by season?
   
 ## Introduction
-  Sports are a crucial part of American culture. In an age of technological advancement, athletics has seen a revolution in the application of analytics to gameplay. An exceptional example of this modern phenomenon occurs within the National Basketball Association (NBA). The NBA is an ever-evolving league that requires constant innovation in order for teams to gain an advantage over each other. Data within this organization has grown exponentially over the last 15 years, with improvements in reporting and data collection leading to more precise player and team summary statistics [1]. Additionally, with improved communication systems, the frequency and amount of information captured, stored, and distributed has grown significantly. The result of this transformation is clear: the world of basketball generates far more data today than ever before. 
+  Sports are a crucial part of American culture. In an age of technological advancement, athletics has seen a revolution in the application of analytics to game play. An exceptional example of this modern phenomenon occurs within the National Basketball Association (NBA). The NBA is an ever-evolving league that requires constant innovation in order for teams to gain an advantage over each other. Data within this organization has grown exponentially over the last 15 years, with improvements in reporting and data collection leading to more precise player and team summary statistics [1]. Additionally, with improved communication systems, the frequency and amount of information captured, stored, and distributed has grown significantly. The result of this transformation is clear: the world of basketball generates far more data today than ever before. 
 
 With this data, sports analytics have the capability to optimize the processes and success of a sports organization as a whole [2]. Field data metrics help teams in improving game strategy, nutrition plans, and other methods for raising performance. As a direct consequence, the success or failure of a given basketball program has the capacity to leverage ticket sales, offset operational costs, and turn a profit for stakeholders. The business of the NBA is red hot: NBA franchise values have continued to grow over the past decade, averaging $2.12 billion as of 2020 [3]. While winning basketball games does not inherently cause an increase in profitability or generated revenue for a given NBA franchise, the expectation of success often precedes a trend of increased television viewership, merchandising, and sponsorships [4]. It is therefore pertinent to study the relationships between various NBA sports metrics because of their ability to indicate positive trends in team performance. 
 
@@ -121,20 +118,8 @@ Average free throw rate. The variable measures a team's ability to get to the fr
 * `team_off_rtg`:
 A teams offensive rating. We initially were planning on using the variable as the dependent variable for question 1, but we were unsure of how the statistic was calculated and all formulas found included field goal percentage, which also influences team_efg_pct. See exhibits 1 and 2 of the appendix to see that trend.
 
-For a visual overview of the data contained within the entire nba_average data frame, the first six observations, the summary statistics, and a heat map of the entire data frame are provided. Heightened attention should be paid to the heat map, as observed correlations are used to support our question predictions below. What the correlation coefficients do not show, however, are whether the trends predicted are robust across seasons. Instead, considerations of time are incorporated into the question-based exploratory analysis of this report. 
-
 ### First Six Observations
 ```{r, echo = FALSE, message = FALSE, warnings = FALSE}
-#First Six Observations of the Transformed nbadata.csv Dataset
-nba_average <- nbaunique %>%
-  group_by(team_abbrev, season) %>%
-  summarize(team_score = mean(team_score),
-            team_pace = mean(team_pace),
-            team_efg_pct = mean(team_efg_pct),
-            team_tov_pct = mean(team_tov_pct),
-            team_orb_pct = mean(team_orb_pct),
-            team_ft_rate = mean(team_ft_rate),
-            team_off_rtg = mean(team_off_rtg))
 head(nba_average)
 ```
 
@@ -245,6 +230,7 @@ Our chart shows our prediction is incorrect. There is no relative trend between 
 Based on the data, we predicted that a scatter plot would be the best format to showcase our trend and data. Initially, the combined chart showed us an overall predicted trend of all seasons and all teams, sorted by color and shape. Similarly to question 1, we added a trend line to see the overall trend of the data because there was a lot of variance in the data points. To take a closer look, we faceted the data and made three separate charts, one for each season. Within each season, it was easier to compare individual teams and to compare trend lines over time. There was an obvious change in trends that became apparent after faceting the charts. Throughout the past three seasons, team free throw rate is becoming less of a determinant of total points scored. Another potential source of the new trend could be that teams are more focused on shooting three pointers and fouling during a three point shot is less common.
 
 ## Conclusion
+While we had some prior basketball knowledge and underlying assumptions, the outcome of the data analysis surprised us. There was a positive trend for the impacts on team effective field goal percentage and team free throw rates on a teams total points scored, which was expected. However, we came to the conclusion that team effective field percentage is a better indicator of team score than team free throw rate. Our prediction was that fouls led to free throws, which would increase the free throw rate and therefore the team score. Over the past three seasons, free throw rates have had less of an impact on team score while effective field goal percentage has maintained a strong positive relationship with team score.
 
 ## Citations
 
