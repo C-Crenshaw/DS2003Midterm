@@ -129,11 +129,11 @@ head(nba_average)
 summary(nba_average)
 ```
 
-### Heat Map
+### Correlation Heat Map
 ```{r, echo = FALSE, message = FALSE, warnings = FALSE}
 #Correlation between variables (pay heightened attention to the high correlations between team score and other variables)
 p_load(GGally)
-ggcorr(nba_average)
+ggcorr(nba_average, title = "Correlation Between Variables", label = TRUE, label_size = 3)
 ```
 
 ## Question 1: 
