@@ -1,6 +1,6 @@
 ---
 title: "Exploring Offensive Team Trends in the NBA"
-author: "Dylan Cole, Carson Crenshaw, Andrew Holzwarth, and Lexi Van Metre"
+author: "Group 3: Dylan Cole, Carson Crenshaw, Andrew Holzwarth, and Lexi Van Metre"
 date: "`r Sys.Date()`"
 output: html_document
 ---
@@ -17,13 +17,14 @@ library(plotly)
 library(tidyverse)
 library(pacman)
 
-#Dataset Selection will is due Wednesday night on Canvas. 
-#Original Dataset Link: #https://www.advancedsportsanalytics.com/nba-raw-data
+#Original Dataset Link: #https://www.advancedsportsanalytics.com/nba-heat-check-app
+#Google Drive Dataset Link (properly named): #https://drive.google.com/file/d/1vAEuCYVW86KehK72CQCGR00fJPSGtAJ3/view?usp=share_link
+#Make sure original dataset is named nbadata.csv
 ```
 
 ```{r, include = FALSE, message = FALSE}
 # Load in our data
-nbadata <- read.csv("/Users/andrewholzwarth/Desktop/DS 2003/Midterm Project/nbadata.csv")
+nbadata <- read.csv("nbadata.csv")
 ```
 
 ```{r, include = FALSE, message = FALSE}
