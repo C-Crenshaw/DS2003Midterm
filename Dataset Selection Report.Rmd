@@ -143,7 +143,7 @@ ggcorr(nba_average, title = "Correlation Between Variables", label = TRUE, label
 ### Is there a trend between team efg percentage and team score by team?
 
 ### Prediction
-As a group, we predict the team’s effective field goal percentage will create a positive correlation trend in average team score. In other words, a higher effective field goal percentage may cause an increase in the sample mean of points scored.
+As a group, we predict the team’s effective field goal percentage will create a positive correlation trend in average team score. In other words, a higher effective field goal percentage may increase alongside a sample mean of points scored.
 
 ### Initial Chart
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
